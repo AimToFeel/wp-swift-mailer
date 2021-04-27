@@ -3,7 +3,7 @@
     "description": "Implementation of Swift Mailer for Wordpress.",
     "keywords": ["Wordpress", "Wordpress mailer", "Swift Mailer"],
     "homepage": "https://aimtofeel.com",
-    "license": "GPLv2",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "AimToFeel",
