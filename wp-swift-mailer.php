@@ -15,10 +15,6 @@ if (!function_exists('add_action')) {
 }
 
 define('WP_SWIFT_MAILER_DIRECTORY', plugin_dir_path(__FILE__));
-
-register_activation_hook(__FILE__, ['WPSwiftMailer', 'onPluginActivation']);
-register_deactivation_hook(__FILE__, ['WPSwiftMailer', 'onPluginDeactivation']);
-
 require_once WP_SWIFT_MAILER_DIRECTORY . 'src/WPSwiftMailer.php';
 
 add_action('init', ['WPSwiftMailer', 'onInit']);
