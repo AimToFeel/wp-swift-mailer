@@ -1,0 +1,18 @@
+{
+    "name": "aimtofeel/wp-swift-mailer",
+    "description": "Implementation of Swift Mailer for Wordpress.",
+    "keywords": ["Wordpress", "Wordpress mailer", "Swift Mailer"],
+    "homepage": "https://aimtofeel.com",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "AimToFeel",
+            "email": "we@aimtofeel.com",
+            "homepage": "https://aimtofeel.com"
+        }
+    ],
+    "type": "wordpress-plugin",
+    "require": {
+        "composer/installers": "v1.10.0"
+    }
+}
