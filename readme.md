@@ -71,6 +71,10 @@ define('WP_SWIFT_MAILER_SMTP_USERNAME', env('SMTP_USERNAME'));
 define('WP_SWIFT_MAILER_SMTP_PASSWORD', env('SMTP_PASSWORD'));
 ```
 
+## Improvements list
+* Add support for more Swift Mailer transporters
+* Add support for mail attachments
+
 ## Open to code submission
 I'm always open to PR's. For example this package currently only supports the SMTP transporter, but it would be nice to support all Swift Mailer transporters. If you have some time on your hands and want to contribute, feel free to submit a PR.
 
