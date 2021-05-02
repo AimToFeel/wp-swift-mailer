@@ -10,11 +10,47 @@
  * Text domain: wp-swift-mailer
  */
 
+use WPSwiftMailer\src\WPSwiftMailer;
+
 if (!function_exists('add_action')) {
     die('Not allowed to call WP Swift Mailer directly.');
 }
 
 define('WP_SWIFT_MAILER_DIRECTORY', plugin_dir_path(__FILE__));
 require_once WP_SWIFT_MAILER_DIRECTORY . 'src/WPSwiftMailer.php';
+require_once WP_SWIFT_MAILER_DIRECTORY . 'src/WPSwiftMailerException.php';
 
-add_action('init', ['WPSwiftMailer', 'onInit']);
+$wpSwiftMailer = new WPSwiftMailer();
+add_action('init', [$wpSwiftMailer, 'onInit']);
+
+/**
+ * Override wp mail functionality and call wp swift mailer implementation.
+ *
+ * @param [type] $recipient
+ * @param [type] $subject
+ * @param [type] $message
+ * @param string $headers
+ * @param array $attachments
+ *
+ * @return bool
+ *
+ * @author Niek van der Velde <niek@aimtofeel.com>
+ * @version 1.0.0
+ */
+function wp_mail(
+    string $recipient,
+    string $subject,
+    string $message,
+    string $headers = '',
+    array $attachments = []
+): bool {
+    do_action('wp_swift_mailer_send', [
+        'recipient' => $recipient,
+        'subject' => $subject,
+        'message' => $message,
+        'headers' => $headers,
+        'attachments' => $attachments,
+    ]);
+
+    return true;
+}

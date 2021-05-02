@@ -13,6 +13,7 @@
     ],
     "type": "wordpress-plugin",
     "require": {
-        "composer/installers": "v1.10.0"
+        "composer/installers": "v1.10.0",
+        "swiftmailer/swiftmailer": "^6.0"
     }
 }
