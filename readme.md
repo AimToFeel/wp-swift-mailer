@@ -1,5 +1,5 @@
 # Wordpress Swift Mailer
-Replaces default `wp_mail(...)` implementation with Swift Mailer support. Which will allow you're website to send emails trough SMTP servers with ease.
+Replaces default `wp_mail(...)` implementation with Swift Mailer support. Which will allow your website to send emails trough SMTP servers with ease.
 
 ## Installation
 This plugin can be installed with composer, not sure how to use Wordpress in combination with a package manager, take a look at [Roots/Bedrock](https://roots.io/bedrock/).
