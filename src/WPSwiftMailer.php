@@ -115,7 +115,8 @@ class WPSwiftMailer
         $swiftMessage = (new Swift_Message($parameters['subject']))
             ->setFrom([WP_SWIFT_MAILER_SENDER])
             ->setTo(is_array($parameters['recipient']) ? $parameters['recipient'] : [$parameters['recipient']])
-            ->setBody($parameters['message']);
+            ->setBody($parameters['message'])
+            ->addPart($parameters['message'], 'text/html');
 
         $mailer = new Swift_Mailer($this->transporter);
         $mailer->send($swiftMessage);
