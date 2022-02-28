@@ -2,7 +2,7 @@
 /**
  * Plugin name: WP Swift Mailer
  * Description: Simple implementation of Swift Mailer for Wordpress.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: AimToFeel
  * Author URI: https://aimtofeel.com
  * License: GPLv2
@@ -37,20 +37,22 @@ add_action('init', [$wpSwiftMailer, 'onInit']);
  * @author Niek van der Velde <niek@aimtofeel.com>
  * @version 1.0.0
  */
-function wp_mail(
-    string $recipient,
-    string $subject,
-    string $message,
-    string $headers = '',
-    array $attachments = []
-): bool {
-    do_action('wp_swift_mailer_send', [
-        'recipient' => $recipient,
-        'subject' => $subject,
-        'message' => $message,
-        'headers' => $headers,
-        'attachments' => $attachments,
-    ]);
+if (!function_exists('wp_mail')) {
+    function wp_mail(
+        string $recipient,
+        string $subject,
+        string $message,
+        string $headers = '',
+        array $attachments = []
+    ): bool {
+        do_action('wp_swift_mailer_send', [
+            'recipient' => $recipient,
+            'subject' => $subject,
+            'message' => $message,
+            'headers' => $headers,
+            'attachments' => $attachments,
+        ]);
 
-    return true;
+        return true;
+    }
 }
