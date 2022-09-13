@@ -117,6 +117,10 @@ class WPSwiftMailer
             ->setTo(is_array($parameters['recipient']) ? $parameters['recipient'] : [$parameters['recipient']])
             ->setBody($parameters['message']);
 
+        if (isset($parameters['headers']['Content-type']) && strpos($parameters['headers']['Content-type'], 'text/html') > 0) {
+            $swiftMessage->setContentType('text/html');
+        }
+
         $mailer = new Swift_Mailer($this->transporter);
         $mailer->send($swiftMessage);
     }
