@@ -26,10 +26,10 @@ add_action('init', [$wpSwiftMailer, 'onInit']);
 /**
  * Override wp mail functionality and call wp swift mailer implementation.
  *
- * @param [type] $recipient
- * @param [type] $subject
- * @param [type] $message
- * @param string $headers
+ * @param string $recipient
+ * @param string $subject
+ * @param string $message
+ * @param array $headers
  * @param array $attachments
  *
  * @return bool
@@ -39,11 +39,11 @@ add_action('init', [$wpSwiftMailer, 'onInit']);
  */
 if (!function_exists('wp_mail')) {
     function wp_mail(
-        string $recipient,
-        string $subject,
-        string $message,
-        string $headers = '',
-        array $attachments = []
+        $recipient,
+        $subject,
+        $message,
+        $headers = [],
+        $attachments = []
     ): bool {
         do_action('wp_swift_mailer_send', [
             'recipient' => $recipient,
