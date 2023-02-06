@@ -112,9 +112,17 @@ class WPSwiftMailer
      */
     public function sendMail($parameters)
     {
+        $recipients = is_array($parameters['recipient'])
+        ? $parameters['recipient']
+        : [];
+
+        if (count($recipients) === 0) {
+            $recipients = preg_split('/([;,\s])+/', $parameters['recipient']);
+        }
+
         $swiftMessage = (new Swift_Message($parameters['subject']))
             ->setFrom([WP_SWIFT_MAILER_SENDER])
-            ->setTo(is_array($parameters['recipient']) ? $parameters['recipient'] : [$parameters['recipient']])
+            ->setTo($recipients)
             ->setBody($parameters['message']);
 
         if (isset($parameters['headers']['Content-type']) && strpos($parameters['headers']['Content-type'], 'text/html') > 0) {
