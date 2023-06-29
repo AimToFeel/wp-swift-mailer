@@ -129,6 +129,10 @@ class WPSwiftMailer
             $swiftMessage->setContentType('text/html');
         }
 
+        if (isset($parameters['headers']['Reply-To']) || isset($parameters['headers']['Reply-to'])) {
+            $swiftMessage->setReplyTo(isset($parameters['headers']['Reply-To']) ? $parameters['headers']['Reply-To'] : $parameters['headers']['Reply-to']);
+        }
+
         $mailer = new Swift_Mailer($this->transporter);
         $mailer->send($swiftMessage);
     }
