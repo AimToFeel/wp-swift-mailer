@@ -16,8 +16,6 @@ if (!function_exists('add_action')) {
     die('Not allowed to call WP Swift Mailer directly.');
 }
 
-require plugin_dir_path(__FILE__) . 'vendor/autoload.php';
-
 define('WP_SWIFT_MAILER_DIRECTORY', plugin_dir_path(__FILE__));
 require_once WP_SWIFT_MAILER_DIRECTORY . 'src/WPSwiftMailer.php';
 require_once WP_SWIFT_MAILER_DIRECTORY . 'src/WPSwiftMailerException.php';
@@ -46,7 +44,7 @@ if (!function_exists('wp_mail')) {
         $message,
         $headers = [],
         $attachments = []
-    ): bool {
+    ): bool{
         do_action('wp_swift_mailer_send', [
             'recipient' => $recipient,
             'subject' => $subject,
