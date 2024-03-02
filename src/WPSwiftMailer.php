@@ -2,9 +2,9 @@
 
 namespace WPSwiftMailer\src;
 
-use Swift_Mailer;
-use Swift_Message;
-use Swift_SmtpTransport;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
 use WPSwiftMailer\src\WPSwiftMailerException;
 
 class WPSwiftMailer
@@ -83,21 +83,7 @@ class WPSwiftMailer
         $this->checkIfConstantIsDefined('WP_SWIFT_MAILER_SMTP_PORT');
         $this->checkIfConstantIsDefined('WP_SWIFT_MAILER_SMTP_ENCRYPTION');
 
-        $this->transporter = new Swift_SmtpTransport(
-            WP_SWIFT_MAILER_SMTP_HOST,
-            WP_SWIFT_MAILER_SMTP_PORT,
-            WP_SWIFT_MAILER_SMTP_ENCRYPTION
-        );
-
-        try {
-            $this->checkIfConstantIsDefined('WP_SWIFT_MAILER_SMTP_USERNAME');
-            $this->transporter->setUsername(WP_SWIFT_MAILER_SMTP_USERNAME);
-        } catch (WPSwiftMailerException $exception) {}
-
-        try {
-            $this->checkIfConstantIsDefined('WP_SWIFT_MAILER_SMTP_PASSWORD');
-            $this->transporter->setPassword(WP_SWIFT_MAILER_SMTP_PASSWORD);
-        } catch (WPSwiftMailerException $exception) {}
+        $this->transporter = Transport::fromDsn('smtp://' . WP_SWIFT_MAILER_SMTP_USERNAME . ':' . WP_SWIFT_MAILER_SMTP_PASSWORD . '@' . WP_SWIFT_MAILER_SMTP_HOST . ':' . WP_SWIFT_MAILER_SMTP_PORT . '?encryption=' . WP_SWIFT_MAILER_SMTP_ENCRYPTION);
     }
 
     /**
@@ -120,20 +106,18 @@ class WPSwiftMailer
             $recipients = preg_split('/([;,\s])+/', $parameters['recipient']);
         }
 
-        $swiftMessage = (new Swift_Message($parameters['subject']))
-            ->setFrom([WP_SWIFT_MAILER_SENDER])
-            ->setTo($recipients)
-            ->setBody($parameters['message']);
+        $mailer = new Mailer($this->transporter);
 
-        if (isset($parameters['headers']['Content-type']) && strpos($parameters['headers']['Content-type'], 'text/html') > 0) {
-            $swiftMessage->setContentType('text/html');
+        $email = (new Email())
+            ->from(WP_SWIFT_MAILER_SENDER)
+            ->to($recipients)
+            ->subject($parameters['subject'])
+            ->html($parameters['message']);
+
+        if (isset($parameters['headers']['Reply-To'])) {
+            $email = $email->replyTo($parameters['headers']['Reply-To']);
         }
 
-        if (isset($parameters['headers']['Reply-To']) || isset($parameters['headers']['Reply-to'])) {
-            $swiftMessage->setReplyTo(isset($parameters['headers']['Reply-To']) ? $parameters['headers']['Reply-To'] : $parameters['headers']['Reply-to']);
-        }
-
-        $mailer = new Swift_Mailer($this->transporter);
-        $mailer->send($swiftMessage);
+        $mailer->send($email);
     }
 }

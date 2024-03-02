@@ -14,7 +14,7 @@
     "type": "wordpress-plugin",
     "require": {
         "composer/installers": "^v1.12.0",
-        "swiftmailer/swiftmailer": "^6.3"
+        "symfony/mailer": "^7.0"
     },
     "config": {
         "allow-plugins": {
